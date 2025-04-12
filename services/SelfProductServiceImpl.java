@@ -30,6 +30,8 @@ public class SelfProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProducts() {
+
+
         return productRepository.findAll();
     }
 

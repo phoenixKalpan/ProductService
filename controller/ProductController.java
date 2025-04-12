@@ -25,8 +25,8 @@ public class ProductController {
     public ResponseEntity<List<Product>> getAllProducts()
     {
         ResponseEntity<List<Product>> response = new ResponseEntity(
-                //fakeStoreProductService.getProducts(),
-                this.productService.getProducts(),
+                fakeStoreProductService.getProducts(),
+                //this.productService.getProducts(),
                 HttpStatus.OK);
 
         return response;
@@ -47,8 +47,8 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
     {
         ResponseEntity<Product> response = new ResponseEntity(
-                //fakeStoreProductService.getProductById(id),
-                this.productService.getProductById(id),
+                fakeStoreProductService.getProductById(id),
+                //this.productService.getProductById(id),
                 HttpStatus.OK);
 
         return response;
