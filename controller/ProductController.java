@@ -5,6 +5,9 @@ import org.phoenix13.productservice25.models.Product;
 import org.phoenix13.productservice25.services.FakeStoreProductServiceImpl;
 import org.phoenix13.productservice25.services.ProductService;
 import org.phoenix13.productservice25.services.ProductServiceImpl;
+import org.phoenix13.productservice25.services.SelfProductServiceImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +20,20 @@ import java.util.List;
 public class ProductController {
     private FakeStoreProductServiceImpl fakeStoreProductService;
     private ProductServiceImpl productService;
-    public ProductController(FakeStoreProductServiceImpl fakeStoreProductService, ProductServiceImpl productService) {
-            this.fakeStoreProductService = fakeStoreProductService;
-            this.productService = productService;
+    private SelfProductServiceImpl selfProductService;
+    //private ProductService productService;
+    public ProductController(FakeStoreProductServiceImpl fakeStoreProductService, ProductServiceImpl productService, SelfProductServiceImpl selfProductService) {
+        this.fakeStoreProductService = fakeStoreProductService;
+        this.productService = productService;
+        this.selfProductService = selfProductService;
+
     }
+
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts()
     {
         ResponseEntity<List<Product>> response = new ResponseEntity(
-                fakeStoreProductService.getProducts(),
+                productService.getProducts(),
                 //this.productService.getProducts(),
                 HttpStatus.OK);
 
@@ -47,7 +55,7 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
     {
         ResponseEntity<Product> response = new ResponseEntity(
-                fakeStoreProductService.getProductById(id),
+                productService.getProductById(id),
                 //this.productService.getProductById(id),
                 HttpStatus.OK);
 

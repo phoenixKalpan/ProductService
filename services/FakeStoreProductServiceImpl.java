@@ -7,6 +7,8 @@ import org.phoenix13.productservice25.dtos.ProductRequestDTO;
 import org.phoenix13.productservice25.models.Category;
 import org.phoenix13.productservice25.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -82,6 +84,12 @@ public class FakeStoreProductServiceImpl implements ProductService{
         fakeStoreDTO.setImage(product.getImageUrl());
         return fakeStoreClient.updateProductById(id,fakeStoreDTO);
     }
+
+    @Override
+    public List<Page<Product>> findAllProducts(Pageable pageable) {
+        return List.of();
+    }
+
     @Override
     public boolean deleteProductById(long id) {
         return false;
