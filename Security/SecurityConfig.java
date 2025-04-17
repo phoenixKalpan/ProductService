@@ -18,7 +18,7 @@ public class SecurityConfig {
             throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/products").hasAuthority("Admin")
+                        //.requestMatchers("/products").hasAuthority("Admin")
                         .requestMatchers("/products/{id}").permitAll()
                         .anyRequest().permitAll()
                 )

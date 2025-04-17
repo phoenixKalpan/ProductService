@@ -55,8 +55,10 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id)
     {
         ResponseEntity<Product> response = new ResponseEntity(
-                productService.getProductById(id),
+                //productService.getProductById(id),
                 //this.productService.getProductById(id),
+                fakeStoreProductService.getProductById(id),
+
                 HttpStatus.OK);
 
         return response;

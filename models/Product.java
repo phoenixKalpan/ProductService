@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.elasticsearch.annotations.Document;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @Entity
 @Document(indexName = "Product")
-public class Product extends BaseModel {
+public class Product extends BaseModel implements Serializable {
     private String name;
     private String description;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

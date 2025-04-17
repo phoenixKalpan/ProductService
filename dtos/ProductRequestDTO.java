@@ -5,9 +5,11 @@ import lombok.Setter;
 import org.phoenix13.productservice25.models.Category;
 import org.phoenix13.productservice25.models.Product;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class ProductRequestDTO {
+public class ProductRequestDTO implements Serializable {
     private long id;
     private String title;
     private String description;

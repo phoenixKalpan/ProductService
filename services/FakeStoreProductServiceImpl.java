@@ -9,6 +9,7 @@ import org.phoenix13.productservice25.models.Product;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -23,9 +24,14 @@ import java.util.List;
 public class FakeStoreProductServiceImpl implements ProductService{
     private RestTemplateBuilder restTemplateBuilder;
     private FakeStoreClient fakeStoreClient;
-    public FakeStoreProductServiceImpl(FakeStoreClient fakeStoreClient) {
+    private RedisTemplate<String, Object> redisTemplate;
+    // String -> Data Type of Key
+    // Object -> Data Type of Value
+
+    public FakeStoreProductServiceImpl(FakeStoreClient fakeStoreClient, RedisTemplate<String, Object> redisTemplate) {
         //this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreClient = fakeStoreClient;
+        this.redisTemplate = redisTemplate;
     }
     @Override
     public Product createProduct(ProductRequestDTO productRequestDTO) {
@@ -37,9 +43,16 @@ public class FakeStoreProductServiceImpl implements ProductService{
 
     @Override
     public Product getProductById(Long id) {
+        ProductRequestDTO productRequestDTO;
+        productRequestDTO=(ProductRequestDTO) redisTemplate.opsForHash().get("PRODUCTS", id);
 
-        ProductRequestDTO productRequestDTO = fakeStoreClient.getProductById(id);
-
+        if (productRequestDTO != null) {
+            System.out.println("Fetched from Cache");
+            return productRequestDTO.toProduct(productRequestDTO);
+        }
+        System.out.println("Fetched from API");
+        productRequestDTO = fakeStoreClient.getProductById(id);
+        redisTemplate.opsForHash().put("PRODUCTS", id, productRequestDTO);
         return productRequestDTO.toProduct(productRequestDTO);
     }
 
